@@ -1,0 +1,38 @@
+---
+title: "babynames"
+author: "Gaurinath Subash"
+format: html
+execute: 
+  echo: false
+---
+
+```{r}
+#| message: false
+library(tidyverse)
+```
+
+
+
+```{r}
+x <- read_csv("i_names.csv", show_col_types = FALSE)
+```
+
+
+
+```{r}
+x |> 
+  summarise(sum_n = sum(n), 
+            .by = c(year, sex), 
+            sum_prop = sum(prop)) |>
+  ggplot(aes(x=year, y=sum_prop, fill = sex)) + 
+          geom_area() +
+          scale_y_continuous(labels = scales::percent_format()) +
+          labs(x="Year",
+               y="Percent",
+               caption = "Babynames R Package", 
+               fill = "Sex",
+               title = "% of US babies with names ending in i",
+               subitle = "Boy names ending with i are steadily increasing")
+```
+
+
